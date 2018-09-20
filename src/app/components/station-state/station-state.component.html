@@ -1,0 +1,63 @@
+
+<div *ngIf="stationDataService.stations.length">
+    <h2>States</h2>    
+    <button type="button" class="btn btn-primary"
+            (click)="stationDataService.clear()">clear</button>
+    Live refresh
+    <label class="switch">
+        <input type="checkbox" [checked]='refresh' (click)="toogleLiveRefresh()">
+        <span class="slider round"></span>
+    </label>    
+    <div *ngFor='let station of stationDataService.stations'>
+        <div *ngFor='let state of states'>
+                
+                <table class="table table-striped table-borderless" *ngIf='station.id==state.stations_id'>
+                        <thead>
+                                <h5>{{state.name}}</h5>
+                        </thead>
+                        <tbody class="no-border-x">
+                            <tr>    
+                                    <td>
+                                        State ID
+                                    </td>          
+                                    <td>
+                                        <span class="badge">{{state.id}}</span>
+                                    </td>
+                            </tr>
+                            <tr>    
+                                <td>
+                                    Timestamp
+                                </td>          
+                              <td>
+                                  <span class="badge">{{state.timestamp | date: 'yyyy/MM/dd h:mm:ss a'}}</span>
+                              </td>
+                            </tr>
+                            <tr>    
+                                <td>
+                                    Voltage
+                                </td>          
+                              <td>
+                                  <span class="badge">{{state.voltage}}</span>
+                              </td>
+                            </tr>   
+                            <tr>    
+                                <td>
+                                    Current
+                                </td>          
+                              <td>
+                                  <span class="badge">{{state.current}}</span>
+                              </td>
+                            </tr>            
+                        </tbody>
+                      </table>
+
+                    
+        </div>
+        
+        
+    </div>
+    
+ 
+</div>
+
+

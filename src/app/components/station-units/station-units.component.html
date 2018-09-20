@@ -1,0 +1,21 @@
+
+<div class="review">
+    <div class="col-12">
+      <div class="card card-table">
+        <div class="card-header">
+          <div class="title">Stations by units</div>
+        </div>
+        <div class="card-body table-responsive">            
+            <div *ngFor="let unit of units">              
+
+                  <span class="badge">{{unit.id}}</span>
+            
+                  <span class="badge">{{unit.location}} </span>
+          
+            <app-stations [id]="unit.id"></app-stations>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
