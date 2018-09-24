@@ -326,7 +326,7 @@ app.post('/chargingStationStates', jsonParser, function (req, res) {
     //all states for a station
 app.post('/stationStates', jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400)
-    var query='SELECT id, stations_id, timestamp, voltage, current FROM mydb.station_states WHERE stations_id="'+req.body.station_id+'"';
+    var query='SELECT id, stations_id, timestamp, voltage, current FROM station_states WHERE stations_id="'+req.body.station_id+'"';
     pool.getConnection(function(err, conn) {
         if (err) throw err;
         conn.query(query, function (err, result, fields) {
@@ -341,13 +341,14 @@ app.post('/stationStates', jsonParser, function (req, res) {
     if (!req.body || !req.body.station_id || !req.body.history) return res.sendStatus(400);
     var where='';
     switch(req.body.history){
+        case "1h": where='AND TIMESTAMPDIFF(hour,timestamp, now())<1';break;
         case "24h": where='AND TIMESTAMPDIFF(day,timestamp, now())<1';break;
         case "1m": where='AND TIMESTAMPDIFF(month,timestamp, now())<1';break;
         case "1y": where='AND TIMESTAMPDIFF(year,timestamp, now())<1';break;
         default: where='AND TIMESTAMPDIFF(day,timestamp, now())<1'
     }
     var query='SELECT id, stations_id, CONVERT_TZ(timestamp,"-02:00","+00:00") as timestamp, voltage, current '+
-            'FROM mydb.station_states WHERE stations_id="'+req.body.station_id+'" '+where;
+            'FROM station_states WHERE stations_id="'+req.body.station_id+'" '+where;
     pool.getConnection(function(err, conn) {
         if (err) throw err;
         conn.query(query, function (err, result, fields) {
@@ -362,15 +363,15 @@ app.post('/stationStates', jsonParser, function (req, res) {
       ///last state for all stations
 app.post('/lastStationStates', jsonParser, function (req, res) {
     var query="SELECT id, s.stations_id, CONVERT_TZ(s.timestamp,'-00:00','+00:00') as timestamp, s.voltage, s.current"+
-    " FROM mydb.station_states s"+
+    " FROM station_states s"+
     " where s.timestamp="+
     " ("+
     " SELECT max(a.timestamp)"+
-    " FROM mydb.station_states a"+
+    " FROM station_states a"+
     " where a.stations_id=s.stations_id"+
     " )"+
     " group BY s.stations_id";
-    //var query='SELECT id, stations_id, CONVERT_TZ(timestamp,"-02:00","+00:00") as timestamp, voltage, current FROM mydb.station_states GROUP BY station_states.stations_id;';
+    //var query='SELECT id, stations_id, CONVERT_TZ(timestamp,"-02:00","+00:00") as timestamp, voltage, current FROM station_states GROUP BY station_states.stations_id;';
     pool.getConnection(function(err, conn) {
         if (err) throw err;
         conn.query(query, function (err, result, fields) {
@@ -382,7 +383,7 @@ app.post('/lastStationStates', jsonParser, function (req, res) {
   })
 
   app.post('/lastStationStatesUpdate', jsonParser, function (req, res) {
-    var query='SELECT id, stations_id, CONVERT_TZ(timestamp,"-02:00","+00:00") as timestamp, voltage, current FROM mydb.station_states where date_format(from_unixtime( UNIX_TIMESTAMP(timestamp)),"%Y-%m-%d %H:%i:%S") >"'+req.body.timestamp+'" GROUP BY station_states.stations_id';
+    var query='SELECT id, stations_id, CONVERT_TZ(timestamp,"-02:00","+00:00") as timestamp, voltage, current FROM station_states where date_format(from_unixtime( UNIX_TIMESTAMP(timestamp)),"%Y-%m-%d %H:%i:%S") >"'+req.body.timestamp+'" GROUP BY station_states.stations_id';
     pool.getConnection(function(err, conn) {
         if (err) throw err;
         conn.query(query, function (err, result, fields) {

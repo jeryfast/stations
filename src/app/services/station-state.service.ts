@@ -62,7 +62,7 @@ getStatesHistory(id:number, history:string):Observable<StationState[]> {
 //get last states after some timestamp for all stations
 getStatesLast(timestamp:string):Observable<StationState[]> {
   var body={
-    "timestamp":timestamp  
+    "timestamp":timestamp
 }
   return this.http.post<StationState[]>(this.liveUrl, body, httpOptions)
     .pipe(
