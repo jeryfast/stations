@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var mysql = require('mysql');
 var jwt = require('jsonwebtoken');
+var secret = "my_secret";
 
 var pool = mysql.createPool({
 
