@@ -397,11 +397,11 @@ app.post('/lastStationStates', jsonParser, function (req, res) {
 
 
 // Binding express app to port 3000
-/*app.listen(3000,function(){
+app.listen(3000,function(){
     console.log('Node server running @ http://localhost:3000/')
-});*/
+});
 
-var privatekey=fs.readFileSync('C:/Certs/server-key.pem');
+/*var privatekey=fs.readFileSync('C:/Certs/server-key.pem');
 var serverCert=fs.readFileSync('C:/Certs/server-cert.pem');
 
 const options = {
@@ -409,7 +409,7 @@ const options = {
     cert: serverCert
   };
   https.createServer(options, app).listen(3000, function(){
-  });
+  });*/
 
 
 
