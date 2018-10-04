@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Station } from '../../classes/Station';
+import { Station } from '../../classes/station';
 import { StationService } from '../../services/station.service';
 import {StationDataService} from '../../services/station-data.service';
 
